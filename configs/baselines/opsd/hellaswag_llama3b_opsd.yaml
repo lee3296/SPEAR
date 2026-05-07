@@ -1,0 +1,51 @@
+output_dir: /path/to/HOME/SPEAR/runs_opsd/hellaswag_llama3b_opsd_43
+algorithm:
+  name: opsd
+model:
+  model_name: meta-llama/Llama-3.2-3B
+  dtype: bf16
+  max_seq_len: 2048
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  last_n_layers: 28
+data:
+  dataset: hellaswag
+  num_clients: 50
+  dirichlet_alpha: 1.0
+  max_examples_per_client: 400
+  seed: 43
+  eval_every: 5
+  eval_every_round_up_to: 1
+fl:
+  rounds: 50
+  clients_per_round: 5
+  local_rollout_steps: 160
+  local_train_steps: 10
+gen:
+  max_new_tokens_y0: 256
+  max_new_tokens_y1: 256
+  do_sample: true
+  temperature: 0.8
+  rollout_batch_size: 32
+  eval_batch_size: 32
+  num_revisions: 2
+spear:
+  lambda_win: 1.0
+  lambda_lose: 0.1
+  lambda_anchor: 0.0
+  unlikelihood_margin: 0.3
+  ul_tail_tokens: 0
+  max_lose_ratio: 2.0
+optim:
+  lr: 5.0e-5 
+  batch_size: 8
+  grad_accum_steps: 2
+  warmup_ratio: 0.1
+  lr_min: 1.0e-5 
+  weight_decay: 0.0
+  use_warmup: true
+feedback:
+  provider: oracle
+  mc_hint_words: 3

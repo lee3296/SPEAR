@@ -1,0 +1,52 @@
+output_dir: /path/to/HOME/SPEAR/runs_feedbacksft/strategyqa_qwen1.5b_feedbacksft_42
+algorithm:
+  name: feedback_sft
+model:
+  model_name: Qwen/Qwen2.5-1.5B
+  dtype: bf16
+  max_seq_len: 1024
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  last_n_layers: 36
+data:
+  dataset: strategy_qa
+  num_clients: 50
+  dirichlet_alpha: 1.0
+  max_examples_per_client: 400
+  seed: 42
+  eval_every: 5
+  eval_every_round_up_to: 1
+fl:
+  rounds: 100
+  clients_per_round: 5
+  local_rollout_steps: 80
+  local_train_steps: 5
+gen:
+  max_new_tokens_y0: 256    # yes/no + brief reasoning; no need for long outputs
+  max_new_tokens_y1: 256
+  do_sample: true
+  temperature: 0.8
+  rollout_batch_size: 32
+  eval_batch_size: 32
+  num_revisions: 2
+spear:
+  lambda_win: 1.0
+  lambda_lose: 0.1
+  lambda_anchor: 0.0
+  unlikelihood_margin: 0.3
+  ul_answer_only: false
+  ul_skip_math_ops: false    # no math in this task
+  ul_tail_tokens: 24
+  max_lose_ratio: 4.0
+optim:
+  lr: 1.0e-4 
+  batch_size: 16
+  grad_accum_steps: 1
+  warmup_ratio: 0.1
+  lr_min: 5.0e-5 
+  weight_decay: 0.0
+  use_warmup: true
+feedback:
+  provider: oracle

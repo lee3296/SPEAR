@@ -1,0 +1,71 @@
+output_dir: /path/to/HOME/SPEAR/runs_rltfsd/math_mcqa_qwen1.5b_rltfsd_44
+algorithm:
+  name: rltf_sd
+model:
+  model_name: Qwen/Qwen2.5-1.5B
+  dtype: bf16
+  max_seq_len: 2048
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  last_n_layers: 36
+data:
+  dataset: math_mcqa
+  num_clients: 50
+  dirichlet_alpha: 1.0
+  max_examples_per_client: 500
+  seed: 44
+  eval_every: 50
+  eval_every_round_up_to: 0
+fl:
+  rounds: 50
+  clients_per_round: 3
+  local_rollout_steps: 80 
+  local_train_steps: 5 
+gen:
+  max_new_tokens_y0: 512
+  max_new_tokens_y1: 512
+  do_sample: true
+  temperature: 0.8
+  rollout_batch_size: 32
+  eval_batch_size: 32 
+  num_revisions: 2
+spear:
+  lambda_win: 1.0
+  lambda_lose: 0.1
+  lambda_anchor: 0.0
+  unlikelihood_margin: 0.3
+  ul_answer_only: false
+  ul_skip_math_ops: true     # protect math ops in CoT reasoning
+  ul_tail_tokens: 32
+  max_lose_ratio: 4.0
+optim:
+  lr: 5.05e-5 
+  batch_size: 2
+  grad_accum_steps: 8
+  warmup_ratio: 0.1
+  lr_min: 1.0e-5 
+  weight_decay: 0.0
+  use_warmup: true
+feedback:
+  provider: oracle
+  mc_hint_words: 10        # fallback: hint words from correct option text
+distill:
+  feedback_max_chars: 2000
+grpo:
+  num_generations: 2 #4 is too much for 3B with our current resources; OOM
+rltf_sd:
+  # Discount for returns: R_i = r0_i + gamma * r1_i  (Algorithm 1, line 10)
+  # gamma=1.0 gives the undiscounted sum used in the paper.
+  gamma: 1.0
+  # Weight on the self-distillation gradient g_SD.
+  # Paper Table 2 reports "RL coefficient (Self Distillation) 0.1",
+  # interpreted here as sd_coeff=0.1 scaling the auxiliary SD loss.
+  sd_coeff: 0.1
+  # Weight on the multi-turn RL gradient g_RL (turns 0 and 1 combined).
+  # Set rl_coeff=0 to keep only SD distillation.
+  rl_coeff: 1.0
+  # Early termination (Section 2): when r0_i = 1 (y0 already correct),
+  # skip feedback and set y1 = y0, r1 = r0. Saves inference budget.
+  early_termination: true
