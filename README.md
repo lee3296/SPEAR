@@ -177,3 +177,18 @@ spear_fl/
 - Python ≥ 3.9
 - CUDA-capable GPU (bf16 support recommended)
 - See `requirements.txt` for Python package versions
+
+---
+
+## Citation
+
+If you find this repository useful, please consider citing our paper:
+
+```bibtex
+@article{lee2026self,
+  title={Self-Play Enhancement via Advantage-Weighted Refinement in Online Federated LLM Fine-Tuning with Real-Time Feedback},
+  author={Lee, Seohyun and Fang, Wenzhi and Han, Dong-Jun and Hosseinalipour, Seyyedali and Brinton, Christopher G},
+  journal={arXiv preprint arXiv:2605.07977},
+  year={2026}
+}
+```
