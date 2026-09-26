@@ -1,5 +1,4 @@
-# SPEAR: Self-Play Enhancement via Advantage-weighted Refinement in Online Federated LLM Fine-Tuning with Real-Time Feedback
-
+# SPEAR: Self-Play Enhancement via Advantage-weighted Refinement in Online Federated LLM Fine-Tuning
 ## Overview
 
 This repository contains the implementation of **SPEAR**, a federated learning framework for improving large language model (LLM) reasoning through feedback-guided self-play.
