@@ -4,7 +4,7 @@ This project supports 5 algorithms:
   - SPEAR:    our method (implemented in spear.py)
 
 Baselines:
-  - GRPO:     Group Relative Policy Optimisation (multi-sample RL)
+  - GRPO:     Sequence-Level Group Relative Policy Optimisation (multi-sample RL)
   - FEEDBACK_SFT: SFT with feedback-augmented prompts (no distillation, just MLE on y0)
   - OPSD:     On-Policy Self-Distillation (privileged teacher context)
   - RLTF-SD:  RL from Text Feedback via self-distillation
@@ -294,7 +294,7 @@ def client_opsd_update(model, tokenizer, global_adapter_state, client_examples,
     return get_peft_model_state_dict(model, adapter_name="default"), max(1, len(traces)), logs
 
 # ---------------------------------------------------------------------------
-# GRPO (kept byte-for-byte compatible with the original implementation)
+# GRPO (Sequence Level)
 # ---------------------------------------------------------------------------
 
 def _scalar_reward(ex, y, cfg):
