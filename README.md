@@ -7,7 +7,7 @@ SPEAR is an efficient online learning algorithm that uses feedback-guided contra
 
 **Supported algorithms:**
 - `spear` — our method
-- `grpo` — Group Relative Policy Optimisation (baseline)
+- `grpo` — Sequence-Level Group Relative Policy Optimisation (baseline)
 - `opsd` — On-Policy Self-Distillation (baseline)
 - `rltf_sd` — RL from Text Feedback via Self-Distillation (baseline)
 - `feedback_sft` — SFT with feedback-augmented prompts (baseline)
